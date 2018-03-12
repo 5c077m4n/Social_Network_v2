@@ -3,6 +3,7 @@ const https = require('https');
 const http = require('http');
 const fs = require('fs');
 const crypto = require('crypto');
+const path = require('path');
 
 const express = require('express');
 const Promise = require('bluebird');
@@ -10,6 +11,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
+const logger = require('morgan');
 
 const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3000];
@@ -20,6 +22,10 @@ mongoose.connect("mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions")
 	.catch((err) => console.error(`connection error: ${err}`));
 const db = mongoose.connection;
 db.on('error', (err) => console.error(`connection error: ${err}`));
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, '../localData/logStream.log'), {flags: 'a'});
+app.use(logger('dev', {stream: accessLogStream}));
+app.use(logger('dev'));
 
 app.use(session({
 	secret: crypto.randomBytes(32).toString('hex'),
