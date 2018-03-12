@@ -11,7 +11,7 @@ const decodeToken = (req, res, next) => {
 		const token = req.headers['x-access-token'];
 		if(!token) return resError(res, 403, 'No token provided.');
 		jwt.verify(token, publicKey, {algorithms: ['HS512']}, (error, decoded) => {
-			if(error) return reject(error);
+			if(error) return resError(res, 401, 'Invalid Token.');
 			User
 			.findById(decoded._id)
 			.select('+secret')
@@ -75,8 +75,8 @@ module.exports.verifyUser = (req, res, next) => {
 	decodeToken(req, res, next)
 	.then((decoded) => {
 		if(decoded.asAdmin) return next();
-		if(req.params.username !== decoded.username) return next(new Error('401 Unauthorized.'));
-		else next();
+		if(req.params.username !== decoded.username) return resError(res, 401, null);
+		else return next();
 	})
 	.catch((err) => {
 		return next(err);
@@ -86,8 +86,8 @@ module.exports.verifyUser = (req, res, next) => {
 module.exports.verifyAdmin = (req, res, next) => {
 	decodeToken(req, res, next)
 	.then((decoded) => {
-		if(req.params.adminUsername !== decoded.username) return next(new Error('401 Unauthorized.'));
-		else next();
+		if(req.params.adminUsername !== decoded.username) return resError(res, 401, null);
+		else return next();
 	})
 	.catch((err) => {
 		return next(err);
