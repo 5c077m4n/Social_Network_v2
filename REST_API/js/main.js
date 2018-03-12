@@ -10,7 +10,7 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const helmet = require('helmet');
 const Limiter = require('express-rate-limit');
-const middleware = require('./middleware')
+const middleware = require('./middleware');
 
 // mongoose.connect('mongodb://127.0.0.1:27017/social');
 mongoose.connect("mongodb://social:qwerty_123@ds111319.mlab.com:11319/social")
