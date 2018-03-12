@@ -5,6 +5,8 @@ const express = require('express');
 const router = express.Router();
 const middleware = require('../middleware');
 
+let token;
+
 router.get('/', (req, res, next) => {
 	return res.render('index', {title: 'Home'});
 });
@@ -21,13 +23,28 @@ router.get('/profile', middleware.requiresLogin, (req, res, next) => {
 });
 
 router.post('/login', middleware.loggedOut, (req, res, next) => {
-	User.authenticate(req.body.email, req.body.password)
-	.then((user) => {
-		req.session.userId = user._id;
-		return res.redirect('/profile');
+	return new Promise((resolve, reject) => {
+		request.post(
+			'http://127.0.0.1:3000/register',
+			{
+				json: {
+					username: req.body.username,
+					password: req.body.password
+				}
+			},
+			(error, response, body) => {
+				if(error) return reject(error);
+				if(response.statusCode !== 200) return reject(response);
+				return resolve(body);
+			}
+		);
 	})
-	.catch((err) => {
-		next(err);
+	.then((body) => {
+		token = body.token;
+		console.log(body);
+	})
+	.catch((error) => {
+		return next(error);
 	});
 });
 
@@ -47,24 +64,28 @@ router.get('/contact', (req, res, next) => {
 	return res.render('contact', {title: 'Contact'});
 });
 
-router.get('/register', middleware.loggedOut, (req, res, next) => {
+router.route('/register')
+.all(middleware.loggedOut)
+.get((req, res, next) => {
 	return res.render('register', {title: 'Sign Up'});
-});
-
-router.post('/register', middleware.loggedOut, (req, res, next) => {
+})
+.post((req, res, next) => {
 	return new Promise((resolve, reject) => {
 		request.post(
 			'http://127.0.0.1:3000/register',
-			{json: {
-				username: req.body.username,
-				password: req.body.password
-			}},
-			(error, response, body) => {
-				if(error) reject(error);
-				if (!error && response.statusCode == 200)
-				{
-					
+			{
+				json: {
+					username: req.body.username,
+					name: req.body.name,
+					email: req.body.email,
+					bio: req.body.bio,
+					password: req.body.password
 				}
+			},
+			(error, response, body) => {
+				if(error) return reject(error);
+				if(response.statusCode !== 200) return reject(response);
+				return resolve(body);
 			}
 		);
 	})

@@ -1,3 +1,4 @@
+'use strict';
 const Promise = require('bluebird');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -8,7 +9,7 @@ const publicKey = require('../../localData/key.json').publicKey;
 const decodeToken = (req, res, next) => {
 	return new Promise((resolve, reject) => {
 		const token = req.headers['x-access-token'];
-		if(!token) return resError(res, 403, 'No token provided.')
+		if(!token) return resError(res, 403, 'No token provided.');
 		jwt.verify(token, publicKey, {algorithms: ['HS512']}, (error, decoded) => {
 			if(error) return reject(error);
 			User
