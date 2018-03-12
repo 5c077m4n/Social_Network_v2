@@ -12,6 +12,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const logger = require('morgan');
+const Limiter = require('express-rate-limit');
 
 const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3000];
@@ -23,6 +24,13 @@ mongoose.connect(dbURI)
 	.catch((err) => console.error(`connection error: ${err}`));
 const db = mongoose.connection;
 db.on('error', (err) => console.error(`connection error: ${err}`));
+
+app.use(new Limiter({
+	windowMs: 5 * 60 * 1000, // 5 minutes
+	max: 200, // limit each IP to 100 requests per windowMs
+	delayMs: 2 * 1000, // disable delaying - full speed until the max limit is reached
+	delayAfter: 5
+}));
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, '../localData/logStream.log'), {flags: 'a'});
 app.use(logger('dev', {stream: accessLogStream}));
@@ -69,7 +77,8 @@ app.use((err, req, res, next) => {
 	});
 });
 
-http.createServer(app)
+http
+	.createServer(app)
 	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
 	.on('error', function(err) {
 		console.error(`connection error: ${err}`);
