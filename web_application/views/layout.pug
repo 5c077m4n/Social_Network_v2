@@ -1,0 +1,20 @@
+doctype html(lang='en')
+head
+	meta(charset='utf-8')
+	link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+	link(rel='stylesheet', href='/stylesheets/style.css')
+
+	if title
+		title FreeSociety.network | #{title}
+	else
+		title FreeSociety.network | error :'(
+body
+	// load navbar.pug
+	include navbar
+
+	// content block
+	block content
+
+	footer
+		| A Fresh and New Social Network :D
+	script(type="text/javascript", src="../public/js/jquery-3.3.1.min.js")

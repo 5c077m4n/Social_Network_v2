@@ -1,0 +1,14 @@
+extends layout
+
+block content
+	h1 Sign Up
+	form(method='POST', action='/register')
+		label(for='name') Name:
+		input#name(type='text', placeholder='first and last names' name='name')
+		label(for='email') Email:
+		input#email(type='email', placeholder='name@email.com' name='email')
+		label(for='pw') Password:
+		input#pw(type='password' name='password' placeholder='a strong password please')
+		label(for='pw2') Confirm Password:
+		input#pw2(type='password' name='confirmPassword' placeholder='repeat your password')
+		button(type='submit') Sign up

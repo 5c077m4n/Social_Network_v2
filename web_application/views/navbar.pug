@@ -1,0 +1,19 @@
+nav
+	button(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
+	#navbar
+		div
+			a(href='/')
+				i bookmark_border
+				| Bookworm
+			div
+				if !currentUser
+					a(href='register') Sign Up
+				a(href='about') About
+				a(href='contact') Contact
+				a(href='profile') My Profile
+			if currentUser
+				div
+					img(src="/images/avatar.png", alt="avatat")
+					a(href='/logout') Logout
+			else
+				a(href='login') Login
