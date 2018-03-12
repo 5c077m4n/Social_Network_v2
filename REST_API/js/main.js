@@ -20,7 +20,7 @@ const db = mongoose.connection;
 db.on('error', (err) => console.error(`connection error: ${err}`));
 
 const app = express();
-const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3001];
+const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3000];
 
 const accessLogStream = fs.createWriteStream(path.join(__dirname, '../localData/logStream.log'), {flags: 'a'});
 app.use(logger('dev', {stream: accessLogStream}));
@@ -58,15 +58,19 @@ app.use((err, req, res, next) => {
 });
 
 http.createServer(app)
-.listen(PORT, () => {
-	console.log(`Express is now running on ${HOST}:${PORT}`)
-});
-
-// https.createServer({
-// 	key: fs.readFileSync(__dirname + '../serverOptions/privatekey.pem'),
-// 	ca: fs.readFileSync(__dirname + '../serverOptions/certauthority.pem'),
-// 	cert: fs.readFileSync(__dirname + '../serverOptions/certificate.pem')
-// }, app)
-// .listen(3001, () => {
-// 	console.log(`A secure server is running on ${HOST}:3001`)
-// });
+	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
+	.on('error', function(err) {
+		console.error(`connection error: ${err}`);
+		this.close(() => console.error(`The connection has been closed.`));
+	});
+// https
+// 	.createServer({
+// 		key: fs.readFileSync(__dirname + '/serverOptions/privatekey.pem'),
+// 		ca: fs.readFileSync(__dirname + '/serverOptions/certauthority.pem'),
+// 		cert: fs.readFileSync(__dirname + '/serverOptions/certificate.pem')
+// 	}, app)
+// 	.listen(PORT, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
+// 	.on('error', function(err) {
+// 		console.error(`connection error: ${err}`);
+// 		this.close(() => console.error(`The connection has been closed.`));
+// 	});
