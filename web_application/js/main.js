@@ -15,7 +15,7 @@ const logger = require('morgan');
 const Limiter = require('express-rate-limit');
 
 const app = express();
-const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3000];
+const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3001];
 
 const dbURI = 'mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions';
 // const dbURI = 'mongodb://127.0.0.1:27017/social';
@@ -90,7 +90,7 @@ http
 // 		ca: fs.readFileSync(__dirname + '/serverOptions/certauthority.pem'),
 // 		cert: fs.readFileSync(__dirname + '/serverOptions/certificate.pem')
 // 	}, app)
-// 	.listen(PORT, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
+// 	.listen(PORT+1, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
 // 	.on('error', function(err) {
 // 		console.error(`connection error: ${err}`);
 // 		this.close(() => console.error(`The connection has been closed.`));

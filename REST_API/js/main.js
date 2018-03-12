@@ -70,7 +70,7 @@ http.createServer(app)
 // 		ca: fs.readFileSync(__dirname + '/serverOptions/certauthority.pem'),
 // 		cert: fs.readFileSync(__dirname + '/serverOptions/certificate.pem')
 // 	}, app)
-// 	.listen(PORT, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
+// 	.listen(PORT+1, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
 // 	.on('error', function(err) {
 // 		console.error(`connection error: ${err}`);
 // 		this.close(() => console.error(`The connection has been closed.`));
