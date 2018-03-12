@@ -14,6 +14,7 @@ const middleware = require('./middleware');
 
 const dbURI = 'mongodb://social:qwerty_123@ds111319.mlab.com:11319/social';
 // const dbURI = 'mongodb://127.0.0.1:27017/social';
+
 mongoose.connect(dbURI)
 	.then(() => {console.log('You have been successfully connected to the database.')})
 	.catch((err) => console.error(`connection error: ${err}`));
@@ -63,7 +64,10 @@ http
 	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
 	.on('error', function(err) {
 		console.error(`connection error: ${err}`);
-		this.close(() => console.error(`The connection has been closed.`));
+		this.close(() => {
+			console.error(`The connection has been closed.`);
+			process.exit(-2);
+		});
 	});
 // https
 // 	.createServer({
@@ -71,8 +75,11 @@ http
 // 		ca: fs.readFileSync(__dirname + '/serverOptions/certauthority.pem'),
 // 		cert: fs.readFileSync(__dirname + '/serverOptions/certificate.pem')
 // 	}, app)
-// 	.listen(PORT+1, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
+// 	.listen(PORT+10, () => console.log(`Express is now running on https://${HOST}:${PORT+10}`))
 // 	.on('error', function(err) {
 // 		console.error(`connection error: ${err}`);
-// 		this.close(() => console.error(`The connection has been closed.`));
+// 		this.close(() => {
+// 			console.error(`The connection has been closed.`);
+// 			process.exit(-2);
+// 		});
 // 	});

@@ -18,7 +18,8 @@ const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3001];
 
 const dbURI = 'mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions';
-// const dbURI = 'mongodb://127.0.0.1:27017/social';
+// const dbURI = 'mongodb://127.0.0.1:27017/sessions';
+
 mongoose.connect(dbURI)
 	.then(() => {console.log('You have been successfully connected to the database.')})
 	.catch((err) => console.error(`connection error: ${err}`));
@@ -82,7 +83,10 @@ http
 	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
 	.on('error', function(err) {
 		console.error(`connection error: ${err}`);
-		this.close(() => console.error(`The connection has been closed.`));
+		this.close(() => {
+			console.error(`The connection has been closed.`);
+			process.exit(-2);
+		});
 	});
 // https
 // 	.createServer({
@@ -93,5 +97,8 @@ http
 // 	.listen(PORT+1, () => console.log(`Express is now running on https://${HOST}:${PORT+1}`))
 // 	.on('error', function(err) {
 // 		console.error(`connection error: ${err}`);
-// 		this.close(() => console.error(`The connection has been closed.`));
+// 		this.close(() => {
+// 			console.error(`The connection has been closed.`);
+// 			process.exit(-2);
+// 		});
 // 	});

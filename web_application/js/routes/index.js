@@ -1,3 +1,6 @@
+const fs = require('fs');
+const Promise = require('bluebird');
+const request = require('request');
 const express = require('express');
 const router = express.Router();
 const middleware = require('../middleware');
@@ -49,35 +52,28 @@ router.get('/register', middleware.loggedOut, (req, res, next) => {
 });
 
 router.post('/register', middleware.loggedOut, (req, res, next) => {
-	if(req.body.email && req.body.name && req.body.favoriteBook && req.body.password && req.body.confirmPassword)
-	{
-		if(req.body.password !== req.body.confirmPassword)
-		{
-			const err = new Error('The two passwords must match.');
-			err.status = 400;
-			return next(err);
-		}
-		const userData = {
-			email: req.body.email,
-			name: req.body.name,
-			favoriteBook: req.body.favoriteBook,
-			password: req.body.password
-		};
-		User.create(userData, (err, user) => {
-			if(err) return next(err);
-			else
-			{
-				req.session.userId = user._id;
-				return res.redirect('/profile');
+	return new Promise((resolve, reject) => {
+		request.post(
+			'http://127.0.0.1:3000/register',
+			{json: {
+				username: req.body.username,
+				password: req.body.password
+			}},
+			(error, response, body) => {
+				if(error) reject(error);
+				if (!error && response.statusCode == 200)
+				{
+					
+				}
 			}
-		});
-	}
-	else
-	{
-		const err = new Error('All fields required.');
-		err.status = 400;
-		return next(err);
-	}
+		);
+	})
+	.then((body) => {
+		console.log(body);
+	})
+	.catch((error) => {
+		return next(error);
+	});
 });
 
 module.exports = router;
