@@ -16,8 +16,9 @@ const logger = require('morgan');
 const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3000];
 
-// mongoose.connect('mongodb://127.0.0.1:27017/sessions');
-mongoose.connect("mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions")
+const dbURI = 'mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions';
+// const dbURI = 'mongodb://127.0.0.1:27017/social';
+mongoose.connect(dbURI)
 	.then(() => {console.log('You have been successfully connected to the database.')})
 	.catch((err) => console.error(`connection error: ${err}`));
 const db = mongoose.connection;
