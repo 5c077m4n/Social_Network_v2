@@ -52,13 +52,14 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
 	console.error(err);
 	res
-	.status(err.status || 500)
-	.json({
-		error: {message: err.message}
-	});
+		.status(err.status || 500)
+		.json({
+			error: {message: err.message}
+		});
 });
 
-http.createServer(app)
+http
+	.createServer(app)
 	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
 	.on('error', function(err) {
 		console.error(`connection error: ${err}`);
