@@ -18,7 +18,7 @@ const decodeToken = (req, res, next) => {
 			.exec((queryError, user) => {
 				if(queryError) return reject(queryError);
 				if(decoded.secret === user.secret) return resolve(decoded);
-				return reject(new Error("Token verification failed."));
+				return resError(res, 401, null);
 			});
 		});
 	});
