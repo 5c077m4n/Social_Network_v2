@@ -3,9 +3,9 @@ head
 	meta(charset='utf-8')
 	meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
 	meta(http-equiv='x-ua-compatible', content='ie=edge')
-	link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
-	link(rel='stylesheet', src='/public/stylesheets/style.css')
-	scrip(type="text/javascript" src="/public/js/jquery-3.3.1.min.js")
+	//- link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
+	link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+	link(rel='stylesheet', href='/stylesheets/style.css')
 
 	if title
 		title FreeSociety.network | #{title}
@@ -16,6 +16,7 @@ body
 
 	block content
 
-	footer
-		| A Fresh and New Social Network :D
-	script(type="text/javascript", src="../public/js/jquery-3.3.1.min.js")
+	footer.footer.text-center
+		.container
+			span.text-muted A Fresh and New Social Network :D
+	scrip(type="text/javascript" src="/js/jquery-3.3.1.min.js")

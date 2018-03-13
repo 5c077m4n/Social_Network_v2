@@ -22,7 +22,12 @@ router.get('/profile', middleware.requiresLogin, (req, res, next) => {
 	}).catch(err => next(err));
 });
 
-router.post('/login', middleware.loggedOut, (req, res, next) => {
+router.route('/login')
+.all(middleware.loggedOut)
+.get((req, res, next) => {
+	return res.render('profile', {title: 'Profile', name: user.username});
+})
+.post((req, res, next) => {
 	return new Promise((resolve, reject) => {
 		request.post(
 			'http://127.0.0.1:3000/register',

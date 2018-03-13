@@ -26,6 +26,11 @@ mongoose.connect(dbURI)
 const db = mongoose.connection;
 db.on('error', (err) => console.error(`connection error: ${err}`));
 
+app.use((req, res, next) => {
+	req.connection.setNoDelay(true);
+	next();
+});
+
 app.use(new Limiter({
 	windowMs: 5 * 60 * 1000, // 5 minutes
 	max: 200, // limit each IP to 100 requests per windowMs
@@ -36,6 +41,19 @@ app.use(new Limiter({
 const accessLogStream = fs.createWriteStream(path.join(__dirname, '../localData/logStream.log'), {flags: 'a'});
 app.use(logger('dev', {stream: accessLogStream}));
 app.use(logger('dev'));
+
+// parse incoming requests
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+// serve static files from /public
+app.use(express.static(__dirname + '/../public'));
+
+// view engine setup
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/../views');
+
+app.use('/', require('./routes'));
 
 app.use(session({
 	secret: crypto.randomBytes(32).toString('hex'),
@@ -50,19 +68,6 @@ app.use((req, res, next) => {
 	res.locals.currentUser = req.session.userId;
 	next();
 });
-
-// parse incoming requests
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
-
-// serve static files from /public
-app.use(express.static(path.join(__dirname, 'public')));
-
-// view engine setup
-app.set('view engine', 'pug');
-app.set('views', __dirname + '/../views');
-
-app.use('/', require('./routes'));
 
 app.use((req, res, next) => {
 	let err = new Error('File Not Found');
