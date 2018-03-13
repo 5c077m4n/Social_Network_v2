@@ -49,9 +49,11 @@ app.use(bodyParser.urlencoded({
 	extended: false
 }));
 
-// serve static files from /public
+app.use('/static/stylesheets/style.css', express.static(__dirname + '/../public/stylesheets/style.css', {
+	maxAge: 0
+}));
 app.use(express.static(__dirname + '/../public', {
-	maxAge: 2 * 60 * 60
+	maxAge: '1h'
 }));
 
 // view engine setup

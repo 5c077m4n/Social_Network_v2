@@ -1,17 +1,37 @@
 extends layout
 
 block content
-	h1 Sign Up
+	.jumbotron.jumbotron-fluid
+		.container
+			hr.my-4
+			h1.display-4 Sign Up
+			p.lead Create a new user here.
+			hr.my-4
 	form(method='POST', action='/register')
-		div.form-group
-			label.sr-only(for='name') Name:
-			input.form-control#name(type='text', placeholder='First and last names' name='name')
-			label.sr-only(for='email') Email:
-			input.form-control#email(type='email', placeholder='Email' name='email')
-			label.sr-only(for='bio') Bio:
-			input.form-control#bio(type='text', placeholder='About you' name='bio')
-			label.sr-only(for='pw') Password:
-			input.form-control#pw(type='password' name='password' placeholder='Password')
-			label.sr-only(for='pw2') Confirm Password:
-			input.form-control#pw2(type='password' name='confirmPassword' placeholder='Repeat your password')
-			button.btn.btn-primary(type='submit') Sign up
+		.form-group
+			.form-row
+				.col
+					//- label.col-sm-2.col-form-label.col-form-label-sm(for='fn') First Name:
+					input.form-control.form-control-sm#fn(type="text" placeholder="First name" name="firstName")
+				.col
+					//- label.col-sm-2.col-form-label.col-form-label-sm(for='ln') Last Name:
+					input.form-control.form-control-sm#ln(type="text" placeholder="Last name" name="lastName")
+		.form-group
+			//- label.col-sm-2.col-form-label.col-form-label-sm(for='email') Email:
+			input.form-control.form-control-sm#email(type='email', placeholder='Email' name='email')
+		.form-group
+			//- label.col-sm-2.col-form-label.col-form-label-sm(for='bio') Bio:
+			textarea.form-control.form-control-sm#bio(type='text', placeholder='About you' name='bio')
+		.form-group
+			select.form-control.form-control-sm(name="gender")
+				option(selected="selected" disabled) Select Your Gender
+				option(value="male") Male
+				option(value="female") Female
+		.form-group
+			//- label.col-sm-2.col-form-label.col-form-label-sm(for='pw') Password:
+			input.form-control.form-control-sm#pw(type='password' name='password' placeholder='Password')
+		.form-group
+			//- label.col-sm-2.col-form-label.col-form-label-sm(for='pw2') Confirm Password:
+			input.form-control.form-control-sm#pw2(type='password' name='confirmPassword' placeholder='Repeat your password')
+		.form-group
+			buttonbtn.btn-lg.btn-primary.btn-block(type='submit') Sign up

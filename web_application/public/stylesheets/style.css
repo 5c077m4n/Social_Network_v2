@@ -2,3 +2,16 @@
 	height: 40px;
 	width: 40px;
 }
+footer {
+	background-color: #f5f5f5;
+	opacity: 0.5;
+	margin: 0 auto;
+}
+form {
+	width: 90%;
+	text-align: center;
+	margin: 0 auto;
+}
+.stick-right {
+	left: 0;
+}

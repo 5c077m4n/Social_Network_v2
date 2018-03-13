@@ -1,11 +1,10 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.justify-content-between
 	button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNavDropdown", aria-controls="navbarNavDropdown", aria-expanded="false", aria-label="Toggle navigation")
 		span.navbar-toggler-icon
 	#navbar.collapse.navbar-collapse
 		ul.navbar-nav
 			li.nav-item
-				a.nav-link(href='/')
-					| Network
+				a.navbar-brand(href='/') FreeSociety.network
 			if !currentUser
 				li.nav-item
 					a.nav-link(href='register') Sign Up
@@ -16,8 +15,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
 			if currentUser
 				li.nav-item
 					a.nav-link(href='profile') My Profile
-				div
+				li.nav-item
 					img.size-40-40.img-thumbnail.hidden-xs-down(src="/img/sunglasses.png", alt="avatat")
 					a.btn.btn-info.pull-md-right(href='/logout') Logout
 			else
-				a.btn.btn-info.pull-md-right(href='login') Login
+				li.nav-item
+					a.btn.btn-info.pull-md-right(href='login') Login
