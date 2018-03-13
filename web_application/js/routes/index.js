@@ -70,31 +70,35 @@ router.route('/register')
 	return res.render('register', {title: 'Sign Up'});
 })
 .post((req, res, next) => {
-	return new Promise((resolve, reject) => {
-		request.post(
-			'http://127.0.0.1:3000/register',
-			{
-				json: {
-					username: req.body.username,
-					name: req.body.name,
-					email: req.body.email,
-					bio: req.body.bio,
-					password: req.body.password
+	if(req.body.password === req.body.confirmPassword)
+		return new Promise((resolve, reject) => {
+			request.post(
+				'http://127.0.0.1:3000/register',
+				{
+					json: {
+						username: req.body.username,
+						name: req.body.name,
+						email: req.body.email,
+						bio: req.body.bio,
+						password: req.body.password
+					}
+				},
+				(error, response, body) => {
+					if(error) return reject(error);
+					if(response.statusCode !== 200) return reject(response);
+					return resolve(body);
 				}
-			},
-			(error, response, body) => {
-				if(error) return reject(error);
-				if(response.statusCode !== 200) return reject(response);
-				return resolve(body);
-			}
-		);
-	})
-	.then((body) => {
-		console.log(body);
-	})
-	.catch((error) => {
-		return next(error);
-	});
+			);
+		})
+		.then((body) => {
+			console.log(body);
+		})
+		.catch((error) => {
+			return next(error);
+		});
 });
+
+router.use('/admins', require('./adminRoutes'));
+router.use('/users', require('./userRoutes'));
 
 module.exports = router;

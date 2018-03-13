@@ -17,7 +17,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
 				a.nav-link(href='profile') My Profile
 			if currentUser
 				div
-					img(src="/images/sunglasses.png", alt="avatat")
-					a.nav-link.pull-md-right(href='/logout') Logout
+					img.avatar.img-circle(src="/images/sunglasses.png", alt="avatat")
+					a.btn.btn-info.pull-md-right(href='/logout') Logout
 			else
-				a.nav-link.pull-md-right(href='login') Login
+				a.btn.btn-info.pull-md-right(href='login') Login
