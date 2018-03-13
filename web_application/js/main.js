@@ -45,10 +45,14 @@ app.use(logger('dev'));
 
 // parse incoming requests
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+	extended: false
+}));
 
 // serve static files from /public
-app.use(express.static(__dirname + '/../public', {maxage: '1h'}));
+app.use(express.static(__dirname + '/../public', {
+	maxAge: 2 * 60 * 60
+}));
 
 // view engine setup
 app.set('view engine', 'pug');
