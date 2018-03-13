@@ -1,11 +1,16 @@
 extends layout
 
 block content
-	main
-		h1 Log In
-		form.form-signin(method='POST' action='/login')
-			label.sr-only(for='email') Email
-			input.form-control(type='text' aria-describedby="emailHelp" id='email' placeholder='email' name='email')
-			label.sr-only(for='password') Password
-			input.form-control(type='password' id='password' placeholder='password' name='password')
-			button.btn.btn-lg.btn-primary.btn-block(type='submit') Log in
+	.jumbotron.jumbotron-fluid
+		.container
+			h1.display-4 Log In
+			p.lead Log in as an existing user here.
+	form.form-signin(method='POST' action='/login')
+		.form-group
+			//- label.sr-only(for='email') Email
+			input.form-control.form-control-sm(type='text' aria-describedby="emailHelp" id='email' placeholder='email' name='email')
+		.form-group
+			//- label.sr-only(for='password') Password
+			input.form-control.form-control-sm(type='password' id='password' placeholder='password' name='password')
+		.form-group
+			button.btn-lg.btn-primary.btn-block(type='submit') Log in

@@ -25,7 +25,7 @@ router.get('/profile', middleware.requiresLogin, (req, res, next) => {
 router.route('/login')
 .all(middleware.loggedOut)
 .get((req, res, next) => {
-	return res.render('profile', {title: 'Profile', name: user.username});
+	return res.render('login', {title: 'Log in'});
 })
 .post((req, res, next) => {
 	return new Promise((resolve, reject) => {

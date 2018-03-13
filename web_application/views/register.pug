@@ -3,10 +3,8 @@ extends layout
 block content
 	.jumbotron.jumbotron-fluid
 		.container
-			hr.my-4
 			h1.display-4 Sign Up
 			p.lead Create a new user here.
-			hr.my-4
 	form(method='POST', action='/register')
 		.form-group
 			.form-row
@@ -34,4 +32,4 @@ block content
 			//- label.col-sm-2.col-form-label.col-form-label-sm(for='pw2') Confirm Password:
 			input.form-control.form-control-sm#pw2(type='password' name='confirmPassword' placeholder='Repeat your password')
 		.form-group
-			buttonbtn.btn-lg.btn-primary.btn-block(type='submit') Sign up
+			button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign up

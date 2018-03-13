@@ -1,10 +1,9 @@
-nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.justify-content-between
-	button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNavDropdown", aria-controls="navbarNavDropdown", aria-expanded="false", aria-label="Toggle navigation")
+nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.sticky-top
+	button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation")
 		span.navbar-toggler-icon
-	#navbar.collapse.navbar-collapse
+	#navbarToggle.collapse.navbar-collapse
+		a.navbar-brand(href='/') FreeSociety.network
 		ul.navbar-nav
-			li.nav-item
-				a.navbar-brand(href='/') FreeSociety.network
 			if !currentUser
 				li.nav-item
 					a.nav-link(href='register') Sign Up
