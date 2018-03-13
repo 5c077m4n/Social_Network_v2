@@ -7,6 +7,9 @@ block content
 			p.lead Create a new user here.
 	form(method='POST', action='/register')
 		.form-group
+			//- label.col-sm-2.col-form-label.col-form-label-sm(for='email') Email:
+			input.form-control.form-control-sm#username(type='text', placeholder='Username' name='username')
+		.form-group
 			.form-row
 				.col
 					//- label.col-sm-2.col-form-label.col-form-label-sm(for='fn') First Name:

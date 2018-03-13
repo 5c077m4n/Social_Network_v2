@@ -50,7 +50,8 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(express.static(__dirname + '/../public', {
-	maxAge: '1d'
+	immutable: true,
+	maxAge: 24 * 60 * 60
 }));
 
 // view engine setup

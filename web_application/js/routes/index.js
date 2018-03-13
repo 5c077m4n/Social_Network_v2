@@ -30,7 +30,7 @@ router.route('/login')
 .post((req, res, next) => {
 	return new Promise((resolve, reject) => {
 		request.post(
-			'http://127.0.0.1:3000/register',
+			'http://127.0.0.1:3000/login',
 			{
 				json: {
 					username: req.body.username,
@@ -45,8 +45,9 @@ router.route('/login')
 		);
 	})
 	.then((body) => {
-		token = body.token;
 		console.log(body);
+		if(body.auth) token = body.token;
+		return res.redirect('/profile');
 	})
 	.catch((error) => {
 		return next(error);
@@ -82,8 +83,9 @@ router.route('/register')
 				{
 					json: {
 						username: req.body.username,
-						name: req.body.name,
+						name: `${req.body.firstName} ${req.body.lastName}`,
 						email: req.body.email,
+						gender: req.body.gender,
 						bio: req.body.bio,
 						password: req.body.password
 					}
@@ -97,6 +99,8 @@ router.route('/register')
 		})
 		.then((body) => {
 			console.log(body);
+			if(body.auth) token = body.token;
+			return res.redirect('/profile');
 		})
 		.catch((error) => {
 			return next(error);
