@@ -60,7 +60,7 @@ app.use(express.static(__dirname + '/public'));
 
 // view engine setup
 app.set('view engine', 'pug');
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/../views');
 
 app.use('/', require('./routes'));
 

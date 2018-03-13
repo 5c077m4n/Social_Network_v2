@@ -3,9 +3,9 @@ extends layout
 block content
 	main
 		h1 Log In
-		form(method='POST' action='/login')
-			label(for='email') Email
-			input(type='text' id='email' placeholder='email' name='email')
-			label(for='password') Password
-			input(type='password' id='password' placeholder='password' name='password')
-			button(type='submit') Log in
+		form.form-signin(method='POST' action='/login')
+			label.sr-only(for='email') Email
+			input.form-control(type='text' aria-describedby="emailHelp" id='email' placeholder='email' name='email')
+			label.sr-only(for='password') Password
+			input.form-control(type='password' id='password' placeholder='password' name='password')
+			button.btn.btn-lg.btn-primary.btn-block(type='submit') Log in

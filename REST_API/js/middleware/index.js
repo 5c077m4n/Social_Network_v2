@@ -49,7 +49,7 @@ module.exports.isAdmin = (req, res, next) => {
 			publicKey,
 			{algorithms: ['HS512']},
 			(error, decoded) => {
-				if(error) return reject(error);
+				if(error) return resError(res, 401, 'Invalid Token.');
 				if(decoded.isAdmin) return resolve();
 				return resError(res, 401, null);
 			}

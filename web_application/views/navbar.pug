@@ -1,19 +1,23 @@
-nav
-	button(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
-	#navbar
-		div
-			a(href='/')
-				i bookmark_border
-				| Bookworm
-			div
-				if !currentUser
-					a(href='register') Sign Up
-				a(href='about') About
-				a(href='contact') Contact
-				a(href='profile') My Profile
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+	button.navbar-toggler(type="button", data-toggle="collapse", data-target="#navbarNavDropdown", aria-controls="navbarNavDropdown", aria-expanded="false", aria-label="Toggle navigation") &#x2630;
+		span.navbar-toggler-icon
+	#navbar.collapse.navbar-collapse
+		ul.navbar-nav
+			li.nav-item
+				a.nav-link(href='/')
+					| Network
+			if !currentUser
+				li.nav-item
+					a.nav-link(href='register') Sign Up
+			li.nav-item
+				a.nav-link(href='about') About
+			li.nav-item
+				a.nav-link(href='contact') Contact
+			li.nav-item
+				a.nav-link(href='profile') My Profile
 			if currentUser
 				div
-					img(src="/images/avatar.png", alt="avatat")
-					a(href='/logout') Logout
+					img(src="/images/sunglasses.png", alt="avatat")
+					a.nav-link.pull-md-right(href='/logout') Logout
 			else
-				a(href='login') Login
+				a.nav-link.pull-md-right(href='login') Login

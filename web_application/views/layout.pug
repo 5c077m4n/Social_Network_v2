@@ -1,18 +1,18 @@
 doctype html(lang='en')
 head
 	meta(charset='utf-8')
-	link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-	link(rel='stylesheet', href='/stylesheets/style.css')
-
+	meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+	meta(http-equiv='x-ua-compatible', content='ie=edge')
+	link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css", integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm", crossorigin="anonymous")
+	//- link(rel='stylesheet', href='/public/stylesheets/style.css')
+	
 	if title
 		title FreeSociety.network | #{title}
 	else
 		title FreeSociety.network | error :'(
 body
-	// load navbar.pug
 	include navbar
 
-	// content block
 	block content
 
 	footer
