@@ -13,9 +13,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
 				a.nav-link(href='about') About
 			li.nav-item
 				a.nav-link(href='contact') Contact
-			li.nav-item
-				a.nav-link(href='profile') My Profile
 			if currentUser
+				li.nav-item
+					a.nav-link(href='profile') My Profile
 				div
 					img.avatar.img-circle(src="/images/sunglasses.png", alt="avatat")
 					a.btn.btn-info.pull-md-right(href='/logout') Logout

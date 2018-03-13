@@ -38,8 +38,9 @@ app.use(new Limiter({
 	delayAfter: 5
 }));
 
-const accessLogStream = fs.createWriteStream(path.join(__dirname, '../localData/logStream.log'), {flags: 'a'});
-app.use(logger('dev', {stream: accessLogStream}));
+app.use(logger('dev', {
+	stream: fs.createWriteStream(path.join(__dirname, '../localData/logStream.log'), {flags: 'a'})
+}));
 app.use(logger('dev'));
 
 // parse incoming requests
@@ -47,7 +48,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // serve static files from /public
-app.use(express.static(__dirname + '/../public'));
+app.use(express.static(__dirname + '/../public', {maxage: '1h'}));
 
 // view engine setup
 app.set('view engine', 'pug');
