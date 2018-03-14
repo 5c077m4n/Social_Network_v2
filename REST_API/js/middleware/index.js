@@ -10,16 +10,14 @@ const decodeToken = (req, res, next) => {
 	return new Promise((resolve, reject) => {
 		const token = req.headers['x-access-token'];
 		if(!token) return resError(res, 403, 'No token provided.');
-		jwt.verify(token, publicKey, {algorithms: ['HS512']}, (error, decoded) => {
-			if(error) return resError(res, 401, 'Invalid Token.');
-			User
-			.findById(decoded._id)
-			.select('+secret')
-			.exec((queryError, user) => {
-				if(queryError) return reject(queryError);
-				if(decoded.secret === user.secret) return resolve(decoded);
-				return resError(res, 401, null);
-			});
+		const decoded = jwt.verify(token, publicKey, {algorithms: ['HS512']});
+		User
+		.findById(decoded._id)
+		.select('+secret')
+		.exec((queryError, user) => {
+			if(queryError) return reject(queryError);
+			if(decoded.secret === user.secret) return resolve(decoded);
+			return resError(res, 401, null);
 		});
 	});
 };
