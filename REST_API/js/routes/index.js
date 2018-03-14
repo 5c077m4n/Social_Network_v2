@@ -10,11 +10,20 @@ router.route('/login')
 	return new Promise((resolve, reject) => {
 		return resolve(User.authenticate(req, res, next));
 	}).then(user => {
-		return jwt.sign(
-			{_id: user._id, username: user.username,  secret: user.secret, isAdmin: user.isAdmin},
-			publicKey,
-			{expiresIn: 24 * 60 * 60, algorithm: 'HS512'}
-		);
+		return new Promise((resolve, reject) => {
+			resolve(
+				jwt.sign(
+					{_id: user._id, username: user.username,  secret: user.secret, isAdmin: user.isAdmin},
+					publicKey,
+					{expiresIn: 24 * 60 * 60, algorithm: 'HS512'}
+				)
+			)
+		}).then((decoded) => {
+			return decoded;
+		})
+		.catch((err) => {
+			next(err);
+		});
 	}).then(token => {
 		return res
 		.status(200)

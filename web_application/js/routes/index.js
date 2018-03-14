@@ -75,10 +75,9 @@ router.route('/login')
 		})
 	})
 	.then((body) => {
-		console.log(req.session.user);
 		return res.render('profile.pug', {
 			title: 'Profile',
-			name: req.session.user.username
+			name: req.session.user.name
 		});
 	})
 	.catch((error) => {
