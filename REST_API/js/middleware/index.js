@@ -72,7 +72,7 @@ module.exports.verifyToken = (req, res, next) => {
 module.exports.verifyUser = (req, res, next) => {
 	decodeToken(req, res, next)
 	.then((decoded) => {
-		if(decoded.asAdmin) return next();
+		if(decoded.isAdmin) return next();
 		if(req.params.username !== decoded.username) return resError(res, 401, null);
 		else return next();
 	})

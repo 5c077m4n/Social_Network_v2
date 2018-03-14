@@ -15,8 +15,9 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.sticky-top
 				li.nav-item
 					a.nav-link(href='profile') My Profile
 				li.nav-item
-					img.size-40-40.img-thumbnail.hidden-xs-down(src="/img/sunglasses.png", alt="avatat")
+					a(href='/profile')
+						img.size-40-40.img-thumbnail.hidden-xs-down(src="/img/sunglasses.png", alt="avatat")
 					a.btn.btn-info.pull-md-right(href='/logout') Logout
 			else
 				li.nav-item
-					a.btn.btn-info.pull-md-right(href='login') Login
+					a.btn.btn-info.pull-md-right(href='/login') Login

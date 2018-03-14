@@ -17,8 +17,9 @@ router.get('/', (req, res, next) => {
 router.route('/profile')
 .all(middleware.requiresLogin)
 .get((req, res, next) => {
-	res.render('profile.pug', {
+	res.render('profile', {
 		title: 'Profile',
+		currentUser: req.session.user,
 		name: req.session.user.username
 	});
 });
@@ -75,10 +76,7 @@ router.route('/login')
 		})
 	})
 	.then((body) => {
-		return res.render('profile.pug', {
-			title: 'Profile',
-			name: req.session.user.name
-		});
+		return res.redirect('/profile');
 	})
 	.catch((error) => {
 		return next(error);

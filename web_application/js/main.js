@@ -62,7 +62,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(__dirname + '/../public', {
 	immutable: true,
-	maxAge: 24 * 60 * 60 * 1000
+	maxAge: 2 * 24 * 60 * 60 * 1000
 }));
 
 // view engine setup
