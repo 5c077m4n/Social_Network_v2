@@ -45,9 +45,12 @@ router.route('/login')
 		);
 	})
 	.then((body) => {
-		console.log(body);
-		if(body.auth) token = body.token;
-		return res.redirect('/profile');
+		if(body.auth)
+		{
+			req.session.token = body.token;
+			return res.redirect('/profile');
+		}
+		else return redirect('/register');
 	})
 	.catch((error) => {
 		return next(error);
@@ -99,8 +102,12 @@ router.route('/register')
 		})
 		.then((body) => {
 			console.log(body);
-			if(body.auth) token = body.token;
-			return res.redirect('/profile');
+			if(body.auth)
+			{
+				req.session.token = body.token;
+				return res.redirect('/profile');
+			}
+			else return redirect('/register');
 		})
 		.catch((error) => {
 			return next(error);

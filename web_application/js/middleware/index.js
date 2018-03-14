@@ -1,10 +1,10 @@
 module.exports.loggedOut = (req, res, next) => {
-	if(req.session && req.session.userId) return res.redirect('/profile');
+	if(req.session && req.session.token) return res.redirect('/profile');
 	else return next();
 };
 
 module.exports.requiresLogin = (req, res, next) => {
-	if(req.session && req.session.userId) return next();
+	if(req.session && req.session.token) return next();
 	else
 	{
 		const err = new Error('You must be logged in to view this page.');

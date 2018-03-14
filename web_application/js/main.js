@@ -31,6 +31,22 @@ app.use((req, res, next) => {
 	next();
 });
 
+app.use(session({
+	secret: crypto.randomBytes(32).toString('hex'),
+	duration: 30 * 60 * 1000,
+	activeDuration: 10 * 60 * 1000,
+	resave: true,
+	saveUninitialized: false,
+	store: new MongoStore({
+		mongooseConnection: db
+	})
+}));
+
+app.use((req, res, next) => {
+	res.locals.currentUser = req.session.userId;
+	next();
+});
+
 app.use(new Limiter({
 	windowMs: 5 * 60 * 1000, // 5 minutes
 	max: 200, // limit each IP to 100 requests per windowMs
@@ -60,20 +76,6 @@ app.set('views', __dirname + '/../views');
 
 app.use('/', require('./routes'));
 
-app.use(session({
-	secret: crypto.randomBytes(32).toString('hex'),
-	resave: true,
-	saveUninitialized: false,
-	store: new MongoStore({
-		mongooseConnection: db
-	})
-}));
-
-app.use((req, res, next) => {
-	res.locals.currentUser = req.session.userId;
-	next();
-});
-
 app.use((req, res, next) => {
 	let err = new Error('File Not Found');
 	err.status = 404;
@@ -83,8 +85,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
 	res.status(err.status || 500);
 	res.render('error', {
-		message: err.message,
-		error: {}
+		message: `${err.status} ${err.message}`
 	});
 });
 
@@ -92,7 +93,7 @@ http
 	.createServer(app)
 	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
 	.on('error', function(err) {
-		console.error(`connection error: ${err}`);
+		console.error(`Connection error: ${err}`);
 		this.close(() => {
 			console.error(`The connection has been closed.`);
 			process.exit(-2);

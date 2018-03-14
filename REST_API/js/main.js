@@ -66,7 +66,7 @@ http
 	.createServer(app)
 	.listen(PORT, () => console.log(`Express is now running on http://${HOST}:${PORT}`))
 	.on('error', function(err) {
-		console.error(`connection error: ${err}`);
+		console.error(`Connection error: ${err}`);
 		this.close(() => {
 			console.error(`The connection has been closed.`);
 			process.exit(-2);
