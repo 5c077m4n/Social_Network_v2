@@ -4,6 +4,7 @@ const Promise = require('bluebird');
 const request = require('request-promise');
 const express = require('express');
 const jwt = require('jsonwebtoken');
+const resError = require('../respond-error');
 const middleware = require('../middleware');
 const publicKey = require('../../localData/key.json').publicKey;
 
@@ -14,16 +15,6 @@ router.get('/', (req, res, next) => {
 	return res.render('index', {title: 'Home'});
 });
 
-router.route('/profile')
-.all(middleware.requiresLogin)
-.get((req, res, next) => {
-	res.render('profile', {
-		title: 'Profile',
-		currentUser: req.session.user,
-		name: req.session.user.username
-	});
-});
-
 router.route('/login')
 .all(middleware.loggedOut)
 .get((req, res, next) => {
@@ -31,7 +22,7 @@ router.route('/login')
 })
 .post((req, res, next) => {
 	if(!(req.body.username && req.body.password))
-		return reject(new Error('Both username and password are required here'));
+		return resError(res, 401, 'Both username and password are required here');
 	request(
 		{
 			method: 'POST',
@@ -64,22 +55,22 @@ router.route('/login')
 					'Accept': 'application/json',
 					'Accept-Charset': 'utf-8',
 					'x-access-token': token
-				}
+				},
+				json: true
 			}
 		)
 		.then((body) => {
 			req.session.user = body;
-			return body;
 		})
 		.catch((err) => {
-			return next(err);
+			return resError(res, err.status, err.message);
 		})
 	})
-	.then((body) => {
+	.then(() => {
 		return res.redirect('/profile');
 	})
 	.catch((error) => {
-		return next(error);
+		return resError(res, error.status, error.message);
 	});
 });
 
@@ -115,28 +106,27 @@ router.route('/register')
 })
 .post((req, res, next) => {
 	if(req.body.password === req.body.confirmPassword)
-		return new Promise((resolve, reject) => {
-			request.post(
-				'http://127.0.0.1:3000/register',
-				{
-					json: {
-						username: req.body.username,
-						name: `${req.body.firstName} ${req.body.lastName}`,
-						email: req.body.email,
-						gender: req.body.gender,
-						bio: req.body.bio,
-						password: req.body.password
-					}
+	{
+		request(
+			{
+				method: 'POST',
+				uri: `http://127.0.0.1:3000/register`,
+				headers: {
+					'Accept': 'application/json',
+					'Accept-Charset': 'utf-8'
 				},
-				(error, response, body) => {
-					if(error) return reject(error);
-					if(response.statusCode !== 200) return reject(response);
-					return resolve(body);
-				}
-			);
-		})
+				body: {
+					username: req.body.username,
+					name: `${req.body.firstName} ${req.body.lastName}`,
+					email: req.body.email,
+					gender: req.body.gender,
+					bio: req.body.bio,
+					password: req.body.password
+				},
+				json: true
+			}
+		)
 		.then((body) => {
-			console.log(body);
 			if(body.auth)
 			{
 				req.session.token = body.token;
@@ -144,12 +134,20 @@ router.route('/register')
 			}
 			else return redirect('/register');
 		})
-		.catch((error) => {
-			return next(error);
+		.catch((err) => {
+			return next(err);
 		});
+	}
 });
 
-router.use('/admins', require('./adminRoutes'));
-router.use('/users', require('./userRoutes'));
+router.route('/profile')
+.all(middleware.requiresLogin)
+.get((req, res, next) => {
+	res.render('profile', {
+		title: 'Profile',
+		currentUser: req.session.user,
+		name: req.session.user.name
+	});
+});
 
 module.exports = router;

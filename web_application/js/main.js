@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const logger = require('morgan');
 const Limiter = require('express-rate-limit');
+const middleware = require('./middleware');
 
 const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3001];
@@ -70,6 +71,8 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/../views');
 
 app.use('/', require('./routes'));
+app.use('/users', middleware.isUser, require('./routes/userRoutes'));
+app.use('/admins', middleware.isAdmin, require('./routes/adminRoutes'));
 
 app.use((req, res, next) => {
 	let err = new Error('File Not Found');

@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-module.exports.secret = () => {
+module.exports.generateSecret = () => {
 	return ([1e7]+-1e3+-4e3+-8e3+-1e11)
 	.replace(
 		/[018]/g,a =>
@@ -8,4 +8,4 @@ module.exports.secret = () => {
 	)
 };
 
-module.exports.publicKey = 'TdJ2m2kWIzzBxAN0GKVgdZXxsZe1wPvaTAatrncKkCiyV2eksFUyXRL1eJyq';
+module.exports.secret = 'TdJ2m2kWIzzBxAN0GKVgdZXxsZe1wPvaTAatrncKkCiyV2eksFUyXRL1eJyq';

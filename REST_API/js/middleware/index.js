@@ -4,13 +4,13 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const resError = require('../respond-error');
 const config = require('../config');
-const publicKey = require('../../localData/key.json').publicKey;
+const secret = require('../../localData/key.json').secret;
 
 const decodeToken = (req, res, next) => {
 	return new Promise((resolve, reject) => {
 		if(!req.headers['x-access-token']) return resError(res, 403, 'No token provided.');
 		const token = req.headers['x-access-token'];
-		const decoded = jwt.verify(token, publicKey, {algorithms: ['HS512']});
+		const decoded = jwt.verify(token, secret, {algorithms: ['HS512']});
 		User
 		.findById(decoded._id)
 		.select('+secret')
@@ -44,7 +44,7 @@ module.exports.isAdmin = (req, res, next) => {
 		const token = req.headers['x-access-token'];
 		const decoded = jwt.verify(
 			token,
-			publicKey,
+			secret,
 			{algorithms: ['HS512']},
 			(error, decoded) => {
 				if(error) return resError(res, 401, 'Invalid Token.');

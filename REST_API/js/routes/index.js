@@ -3,7 +3,7 @@ const router = require('express').Router();
 const Promise = require('bluebird');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const publicKey = require('../../localData/key.json').publicKey;
+const secret = require('../../localData/key.json').secret;
 
 router.route('/login')
 .post((req, res, next) => {
@@ -14,7 +14,7 @@ router.route('/login')
 			resolve(
 				jwt.sign(
 					{_id: user._id, username: user.username,  secret: user.secret, isAdmin: user.isAdmin},
-					publicKey,
+					secret,
 					{expiresIn: 24 * 60 * 60, algorithm: 'HS512'}
 				)
 			)
@@ -45,7 +45,7 @@ router.route('/register')
 			if(!user) return reject(new Error('The user has not been created.'));
 			jwt.sign(
 				{_id: user._id, username: user.username, secret: user.secret, isAdmin: user.isAdmin},
-				publicKey,
+				secret,
 				{expiresIn: 24 * 60 * 60, algorithm: 'HS512'},
 				(err, token) => {
 					if(err) return reject(err);

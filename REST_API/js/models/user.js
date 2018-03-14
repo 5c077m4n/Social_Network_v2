@@ -11,7 +11,7 @@ const UserSchema = new Schema({
 	username: {type: String, minlength: 3, maxlength: 100, unique: [true, 'This username has already been taken.'], required: true},
 	email: {type: String, trim: true, maxlength: 100, unique: [true, 'This email is currently in use.']},
 	password: {type: String, required: true, select: false, minlength: 3, maxlength: 100},
-	secret: {type: String, required: true, select: false, default: config.secret()},
+	secret: {type: String, required: true, select: false, default: config.generateSecret()},
 	name: {type: String, default: "", maxlength: 100},
 	profilePic: {type: String, default: ""},
 	bio: {type: String, maxlength: 200},

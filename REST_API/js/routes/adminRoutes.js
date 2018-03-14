@@ -6,7 +6,7 @@ const resError = require('../respond-error');
 const middleware = require('../middleware');
 const User = require('../models/user');
 const Post = require('../models/post');
-const publicKey = require('../../localData/key.json').publicKey;
+const secret = require('../../localData/key.json').secret;
 
 let localTemp = {};
 
