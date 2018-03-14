@@ -24,6 +24,11 @@ db.on('error', (err) => console.error(`connection error: ${err}`));
 const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3000];
 
+app.use((req, res, next) => {
+	req.connection.setNoDelay(true);
+	next();
+});
+
 const accessLogStream = fs.createWriteStream(
 	path.join(__dirname, '../localData/logStream.log'),
 	{flags: 'a'}

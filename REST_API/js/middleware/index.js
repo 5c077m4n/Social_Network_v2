@@ -8,8 +8,8 @@ const publicKey = require('../../localData/key.json').publicKey;
 
 const decodeToken = (req, res, next) => {
 	return new Promise((resolve, reject) => {
+		if(!req.headers['x-access-token']) return resError(res, 403, 'No token provided.');
 		const token = req.headers['x-access-token'];
-		if(!token) return resError(res, 403, 'No token provided.');
 		const decoded = jwt.verify(token, publicKey, {algorithms: ['HS512']});
 		User
 		.findById(decoded._id)
