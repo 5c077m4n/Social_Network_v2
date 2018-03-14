@@ -12,8 +12,8 @@ const helmet = require('helmet');
 const Limiter = require('express-rate-limit');
 const middleware = require('./middleware');
 
-const dbURI = 'mongodb://social:qwerty_123@ds111319.mlab.com:11319/social';
-// const dbURI = 'mongodb://127.0.0.1:27017/social';
+// const dbURI = 'mongodb://social:qwerty_123@ds111319.mlab.com:11319/social';
+const dbURI = 'mongodb://127.0.0.1:27017/social';
 
 mongoose.connect(dbURI)
 	.then(() => {console.log('You have been successfully connected to the database.')})

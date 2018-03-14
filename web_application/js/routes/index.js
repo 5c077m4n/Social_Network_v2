@@ -1,7 +1,7 @@
 'use strict';
 const fs = require('fs');
 const Promise = require('bluebird');
-const request = require('request');
+const request = require('request-promise');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const middleware = require('../middleware');
@@ -29,28 +29,23 @@ router.route('/login')
 	return res.render('login', {title: 'Log in'});
 })
 .post((req, res, next) => {
-	return new Promise((resolve, reject) => {
-		request(
-			{
-				url: `http://127.0.0.1:3000/login`,
-				method: 'POST',
-				headers: {
-					'Accept': 'application/json',
-					'Accept-Charset': 'utf-8'
-				},
-				json: {
-					username: req.body.username,
-					password: req.body.password
-				}
+	if(!(req.body.username && req.body.password))
+		return reject(new Error('Both username and password are required here'));
+	request(
+		{
+			method: 'POST',
+			uri: `http://127.0.0.1:3000/login`,
+			headers: {
+				'Accept': 'application/json',
+				'Accept-Charset': 'utf-8'
 			},
-			(error, response, body) => {
-				if(error) return reject(error);
-				if(response.statusCode !== 200) return reject(response);
-				token = body.token;
-				return resolve(body);
-			}
-		);
-	})
+			body: {
+				username: req.body.username,
+				password: req.body.password
+			},
+			json: true
+		}
+	)
 	.then((body) => {
 		if(body.auth && body.token) 
 		{
@@ -60,29 +55,27 @@ router.route('/login')
 		else return redirect('/login');
 	})
 	.then((decoded) => {
-		request(
+		return request(
 			{
-				url: `http://127.0.0.1:3000/${decoded.username}`,
+				url: `http://127.0.0.1:3000/users/${decoded.username}`,
 				method: 'GET',
 				headers: {
 					'Accept': 'application/json',
 					'Accept-Charset': 'utf-8',
 					'x-access-token': token
-				},
-				json: {
-					username: req.body.username,
-					password: req.body.password
 				}
-			},
-			(error, response, body) => {
-				if(error) return Promise.reject(error);
-				if(response.statusCode !== 200) return Promise.reject(response);
-				req.session.user = body;
-				return;
 			}
-		);
+		)
+		.then((body) => {
+			req.session.user = body;
+			return body;
+		})
+		.catch((err) => {
+			return next(err);
+		})
 	})
-	.then(() => {
+	.then((body) => {
+		console.log(req.session.user);
 		return res.render('profile.pug', {
 			title: 'Profile',
 			name: req.session.user.username

@@ -17,8 +17,8 @@ const Limiter = require('express-rate-limit');
 const app = express();
 const [HOST, PORT] = ['127.0.0.1', process.env.PORT || 3001];
 
-const dbURI = 'mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions';
-// const dbURI = 'mongodb://127.0.0.1:27017/sessions';
+// const dbURI = 'mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions';
+const dbURI = 'mongodb://127.0.0.1:27017/sessions';
 
 mongoose.connect(dbURI)
 	.then(() => {console.log('You have been successfully connected to the database.')})
