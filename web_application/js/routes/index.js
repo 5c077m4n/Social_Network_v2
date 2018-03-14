@@ -5,9 +5,9 @@ const request = require('request');
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const middleware = require('../middleware');
+const publicKey = require('../../localData/key.json').publicKey;
 
 const router = express.Router();
-let token;
 
 router.get('/', (req, res, next) => {
 	return res.render('index', {title: 'Home'});
@@ -17,13 +17,32 @@ router.route('/profile')
 .all(middleware.requiresLogin)
 .get((req, res, next) => {
 	return new Promise((resolve, reject) => {
-		User.findById(req.session.userId).exec((error, user) => {
-			if(error) return reject(error);
-			else return resolve(user);
-		});
-	}).then((user) => {
-		return res.render('profile', {title: 'Profile', name: user.username});
-	}).catch(err => next(err));
+		request.post(
+			`http://127.0.0.1:3000/users/${req.session.user.username}`,
+			{
+				json: {
+					username: req.body.username,
+					password: req.body.password
+				}
+			},
+			(error, response, body) => {
+				if(error) return reject(error);
+				if(response.statusCode !== 200) return reject(response);
+				return resolve(body);
+			}
+		);
+	})
+	.then((body) => {
+		if(body.auth && body.token)
+		{
+			req.headers['x-access-token'] = body.token;
+			return res.redirect('/profile');
+		}
+		else return redirect('/login');
+	})
+	.catch((error) => {
+		return next(error);
+	});
 });
 
 router.route('/login')
@@ -49,12 +68,13 @@ router.route('/login')
 		);
 	})
 	.then((body) => {
-		if(body.auth && body.token)
-		{
-			req.headers['x-access-token'] = body.token;
-			return res.redirect('/profile');
-		}
+		if(body.auth && body.token) return jwt.verify(body.token, publicKey, {algorithms: ['HS512']});
 		else return redirect('/login');
+	})
+	.then(decoded => {
+		decoded.secret = undefined;
+		req.session.user = decoded;
+		return res.redirect('/profile');
 	})
 	.catch((error) => {
 		return next(error);

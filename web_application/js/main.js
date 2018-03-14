@@ -22,9 +22,9 @@ const dbURI = 'mongodb://social:qwerty_123@ds211289.mlab.com:11289/sessions';
 
 mongoose.connect(dbURI)
 	.then(() => {console.log('You have been successfully connected to the database.')})
-	.catch((err) => console.error(`connection error: ${err}`));
+	.catch((err) => console.error(`Connection error: ${err}`));
 const db = mongoose.connection;
-db.on('error', (err) => console.error(`connection error: ${err}`));
+db.on('error', (err) => console.error(`Connection error: ${err}`));
 
 app.use((req, res, next) => {
 	req.connection.setNoDelay(true);
@@ -43,7 +43,7 @@ app.use(session({
 }));
 
 app.use((req, res, next) => {
-	res.locals.currentUser = req.session.userId;
+	res.locals.currentUser = req.session.userID;
 	next();
 });
 
@@ -85,7 +85,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
 	res.status(err.status || 500);
 	res.render('error', {
-		message: `${err.status} ${err.message}`
+		message: `${err.status} - ${err.message}`
 	});
 });
 
