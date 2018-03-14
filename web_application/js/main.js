@@ -71,7 +71,7 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/../views');
 
 app.use('/', require('./routes'));
-app.use('/users', middleware.isUser, require('./routes/userRoutes'));
+app.use('/users', require('./routes/userRoutes'));
 app.use('/admins', middleware.isAdmin, require('./routes/adminRoutes'));
 
 app.use((req, res, next) => {
