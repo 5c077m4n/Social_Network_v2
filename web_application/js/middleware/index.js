@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports.loggedOut = (req, res, next) => {
 	if(req.session && req.session.token) return res.redirect('/profile');
 	else return next();

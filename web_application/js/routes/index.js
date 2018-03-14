@@ -1,17 +1,21 @@
+'use strict';
 const fs = require('fs');
 const Promise = require('bluebird');
 const request = require('request');
 const express = require('express');
-const router = express.Router();
+const jwt = require('jsonwebtoken');
 const middleware = require('../middleware');
 
+const router = express.Router();
 let token;
 
 router.get('/', (req, res, next) => {
 	return res.render('index', {title: 'Home'});
 });
 
-router.get('/profile', middleware.requiresLogin, (req, res, next) => {
+router.route('/profile')
+.all(middleware.requiresLogin)
+.get((req, res, next) => {
 	return new Promise((resolve, reject) => {
 		User.findById(req.session.userId).exec((error, user) => {
 			if(error) return reject(error);
@@ -45,12 +49,12 @@ router.route('/login')
 		);
 	})
 	.then((body) => {
-		if(body.auth)
+		if(body.auth && body.token)
 		{
-			req.session.token = body.token;
+			req.headers['x-access-token'] = body.token;
 			return res.redirect('/profile');
 		}
-		else return redirect('/register');
+		else return redirect('/login');
 	})
 	.catch((error) => {
 		return next(error);
@@ -58,11 +62,20 @@ router.route('/login')
 });
 
 router.get('/logout', middleware.requiresLogin, (req, res, next) => {
-	if(req.session) req.session.destroy((err) => {
-		if(err) return next(err);
-		else return res.redirect('/');
+	return new Promise((resolve, reject) => {
+		if(req.session)
+		{
+			req.session.destroy((err) => {
+				if(err) return reject(err);
+				else return resolve();
+			});
+		}
+		else return ressolve();
+	}).then(() => {
+		return res.redirect('/');
+	}).catch((err) => {
+		return next(err);
 	});
-	else return res.redirect('/');
 });
 
 router.get('/about', (req, res, next) => {
