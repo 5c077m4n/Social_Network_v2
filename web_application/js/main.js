@@ -42,11 +42,6 @@ app.use(session({
 	})
 }));
 
-app.use((req, res, next) => {
-	res.locals.currentUser = req.session.userID;
-	next();
-});
-
 app.use(new Limiter({
 	windowMs: 5 * 60 * 1000, // 5 minutes
 	max: 200, // limit each IP to 100 requests per windowMs
