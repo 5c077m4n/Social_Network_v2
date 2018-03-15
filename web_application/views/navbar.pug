@@ -1,24 +1,26 @@
-nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.sticky-top
+nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top
+	a.navbar-brand(href='/') FreeSociety.network
 	button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation")
 		span.navbar-toggler-icon
-	div#navbarToggle.collapse.navbar-collapse
-		a.navbar-brand(href='/') FreeSociety.network
+	#navbarToggle.collapse.navbar-collapse
 		ul.navbar-nav
 			if !currentUser
 				li.nav-item
-					a.nav-link(href='register') Sign Up
+					a.nav-link(href='/register') Sign Up
 			li.nav-item
-				a.nav-link(href='about') About
+				a.nav-link(href='/about') About
 			li.nav-item
-				a.nav-link(href='contact') Contact
+				a.nav-link(href='/contact') Contact
 			if currentUser
 				li.nav-item
-					a.nav-link(href='profile') My Profile
+					a.nav-link(href='/profile') My Profile
 				li.nav-item
 					a(href='/profile')
 						img.size-38-38.img-thumbnail.hidden-xs-down(src="/img/sunglasses.png", alt="avatat")
 				li.nav-item
 					a.btn.btn-info.pull-md-right(href='/logout') Logout
 			else
+				li.nav-item
+					a.nav-link.disabled() My Profile
 				li.nav-item
 					a.btn.btn-info.pull-md-right(href='/login') Login

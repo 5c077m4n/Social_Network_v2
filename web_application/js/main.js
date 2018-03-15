@@ -80,7 +80,6 @@ app.use(express.static(__dirname + '/../public', {
 // view engine setup
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/../views');
-app.set('view cache', true);
 
 app.use('/', require('./routes'));
 app.use('/users', require('./routes/userRoutes'));
