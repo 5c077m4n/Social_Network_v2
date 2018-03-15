@@ -21,10 +21,19 @@ module.exports = {
     },
 
     // Second application
-    // {
-    //   name      : 'WEB',
-    //   script    : 'web.js'
-    // }
+    {
+      name      : 'API',
+      script    : '../REST_API/js/main.js',
+      watch: true,
+      instances: 'max',
+      exec_mode  : 'cluster',
+      env: {
+        COMMON_VARIABLE: 'true'
+      },
+      env_production : {
+        NODE_ENV: 'production'
+      }
+    }
   ],
 
   /**
