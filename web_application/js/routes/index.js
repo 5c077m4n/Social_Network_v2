@@ -6,7 +6,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const resError = require('../respond-error');
 const middleware = require('../middleware');
-const publicKey = require('../../localData/key.json').publicKey;
 
 const router = express.Router();
 let token;
@@ -91,14 +90,6 @@ router.get('/logout', middleware.requiresLogin, (req, res, next) => {
 	});
 });
 
-router.get('/about', (req, res, next) => {
-	return res.render('about', {title: 'About'});
-});
-
-router.get('/contact', (req, res, next) => {
-	return res.render('contact', {title: 'Contact'});
-});
-
 router.route('/register')
 .all(middleware.loggedOut)
 .get((req, res, next) => {
@@ -138,6 +129,28 @@ router.route('/register')
 			return next(err);
 		});
 	}
+});
+
+router.route('/about')
+.get((req, res, next) => {
+	if(req.session.user)
+		return res.render('about', {
+			title: 'About',
+			currentUser: req.session.user,
+			name: req.session.user.name
+		});
+	else return res.render('about', {title: 'About'});
+});
+
+router.route('/contact')
+.get((req, res, next) => {
+	if(req.session.user)
+		return res.render('contact', {
+			title: 'Contact',
+			currentUser: req.session.user,
+			name: req.session.user.name
+		});
+	else return res.render('contact', {title: 'Contact Us'});
 });
 
 router.route('/profile')

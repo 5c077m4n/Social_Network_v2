@@ -1,6 +1,7 @@
-.size-40-40 {
-	height: 40px;
-	width: 40px;
+.size-38-38 {
+	box-sizing: border-box;
+	height: 38px;
+	width: 38px;
 }
 footer {
 	position: relative;
