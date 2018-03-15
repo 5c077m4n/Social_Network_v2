@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const Promise = require('bluebird');
 const helmet = require('helmet');
 const Limiter = require('express-rate-limit');
+const compress = require('compression');
 const middleware = require('./middleware');
 
 // const dbURI = 'mongodb://social:qwerty_123@ds111319.mlab.com:11319/social';
@@ -28,6 +29,16 @@ app.use((req, res, next) => {
 	req.connection.setNoDelay(true);
 	next();
 });
+
+app.use(compress({
+	filter: (req, res, next) => {
+		// don't compress responses with this request header
+		if (req.headers['x-no-compression']) return false;
+		// fallback to standard filter function
+		return compress.filter(req, res);
+	  },
+	  level: 6
+}));
 
 const accessLogStream = fs.createWriteStream(
 	path.join(__dirname, '../localData/logStream.log'),

@@ -12,6 +12,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "compression": "^1.7.2",
     "connect-mongo": "^2.0.1",
     "express": "^4.16.2",
     "express-rate-limit": "^2.11.0",

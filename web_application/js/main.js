@@ -13,6 +13,7 @@ const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const logger = require('morgan');
 const Limiter = require('express-rate-limit');
+const compress = require('compression');
 const middleware = require('./middleware');
 
 const app = express();
@@ -31,6 +32,16 @@ app.use((req, res, next) => {
 	req.connection.setNoDelay(true);
 	next();
 });
+
+app.use(compress({
+	filter: (req, res, next) => {
+		// don't compress responses with this request header
+		if (req.headers['x-no-compression']) return false;
+		// fallback to standard filter function
+		return compress.filter(req, res);
+	  },
+	  level: 6
+}));
 
 app.use(session({
 	secret: crypto.randomBytes(32).toString('hex'),
@@ -69,6 +80,7 @@ app.use(express.static(__dirname + '/../public', {
 // view engine setup
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/../views');
+app.set('view cache', true);
 
 app.use('/', require('./routes'));
 app.use('/users', require('./routes/userRoutes'));
