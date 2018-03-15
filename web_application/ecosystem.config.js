@@ -10,7 +10,11 @@ module.exports = {
       name      : 'site',
       script    : 'js/main.js',
       watch: true,
-      instances: 'max',
+      watch_options: {
+        persistent    : true,
+        ignoreInitial : true
+      },
+      instances: '2',
       exec_mode  : 'cluster',
       env: {
         COMMON_VARIABLE: 'true'
@@ -25,7 +29,11 @@ module.exports = {
       name      : 'API',
       script    : '../REST_API/js/main.js',
       watch: true,
-      instances: 'max',
+      watch_options: {
+        persistent    : true,
+        ignoreInitial : true
+      },
+      instances: '2',
       exec_mode  : 'cluster',
       env: {
         COMMON_VARIABLE: 'true'

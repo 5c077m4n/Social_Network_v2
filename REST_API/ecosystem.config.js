@@ -10,7 +10,11 @@ module.exports = {
       name      : 'API',
       script    : 'js/main.js',
       watch: true,
-      instances: 'max',
+      watch_options: {
+        persistent    : true,
+        ignoreInitial : true
+      },
+      instances: '2',
       exec_mode  : 'cluster',
       env: {
         COMMON_VARIABLE: 'true'
@@ -19,13 +23,16 @@ module.exports = {
         NODE_ENV: 'production'
       }
     },
-
     // Second application
     {
       name      : 'site',
       script    : '../web_application/js/main.js',
       watch: true,
-      instances: 'max',
+      watch_options: {
+        persistent    : true,
+        ignoreInitial : true
+      },
+      instances: '2',
       exec_mode  : 'cluster',
       env: {
         COMMON_VARIABLE: 'true'
@@ -40,25 +47,25 @@ module.exports = {
    * Deployment section
    * http://pm2.keymetrics.io/docs/usage/deployment/
    */
-  deploy : {
-    production : {
-      user : 'node',
-      host : '212.83.163.1',
-      ref  : 'origin/master',
-      repo : 'git@github.com:repo.git',
-      path : '/var/www/production',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
-    },
-    dev : {
-      user : 'node',
-      host : '212.83.163.1',
-      ref  : 'origin/master',
-      repo : 'git@github.com:repo.git',
-      path : '/var/www/development',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env dev',
-      env  : {
-        NODE_ENV: 'dev'
-      }
-    }
-  }
+  // deploy : {
+  //   production : {
+  //     user : 'node',
+  //     host : '212.83.163.1',
+  //     ref  : 'origin/master',
+  //     repo : 'git@github.com:repo.git',
+  //     path : '/var/www/production',
+  //     'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
+  //   },
+  //   dev : {
+  //     user : 'node',
+  //     host : '212.83.163.1',
+  //     ref  : 'origin/master',
+  //     repo : 'git@github.com:repo.git',
+  //     path : '/var/www/development',
+  //     'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env dev',
+  //     env  : {
+  //       NODE_ENV: 'dev'
+  //     }
+  //   }
+  // }
 };
