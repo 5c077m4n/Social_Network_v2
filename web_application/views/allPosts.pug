@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	.jumbotron.jumbotron-fluid
+		.container
+			h1.display-4 Posts
+			p.lead All of your posts are here
+	ul
+		each val in posts
+			li #{val}

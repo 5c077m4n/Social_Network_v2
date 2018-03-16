@@ -4,7 +4,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top
 		span.navbar-toggler-icon
 	#navbarToggle.collapse.navbar-collapse
 		ul.navbar-nav
-			if !currentUser
+			if !username
 				li.nav-item
 					a.nav-link(href='/register') Sign Up
 			li.nav-item
@@ -13,9 +13,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top
 				a.nav-link(href='/contact') Contact
 			if currentUser
 				li.nav-item
-					a.nav-link(href='/profile') My Profile
+					a.nav-link(href='/user') My Profile
 				li.nav-item
-					a(href='/profile')
+					a(href='/user')
 						img.size-38-38.img-thumbnail.hidden-xs-down(src="/img/sunglasses.png", alt="avatat")
 				li.nav-item
 					a.btn.btn-info.pull-md-right(href='/logout') Logout

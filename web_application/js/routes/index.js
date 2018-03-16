@@ -3,7 +3,6 @@ const fs = require('fs');
 const Promise = require('bluebird');
 const request = require('request-promise');
 const express = require('express');
-const jwt = require('jsonwebtoken');
 const resError = require('../respond-error');
 const middleware = require('../middleware');
 
@@ -44,7 +43,7 @@ router.route('/register')
 			if(body.auth)
 			{
 				req.session.token = body.token;
-				return res.redirect('/profile');
+				return res.redirect('/user');
 			}
 			else return redirect('/register');
 		})
@@ -90,7 +89,7 @@ router.route('/login')
 				headers: {
 					'Accept': 'application/json',
 					'Accept-Charset': 'utf-8',
-					'x-access-token': token
+					'x-access-token': req.session.token
 				},
 				json: true
 			}
@@ -100,10 +99,10 @@ router.route('/login')
 		})
 		.catch((err) => {
 			return resError(res, err.status, err.message);
-		})
+		});
 	})
 	.then(() => {
-		return res.redirect('/profile');
+		return res.redirect('/user');
 	})
 	.catch((error) => {
 		return resError(res, error.status, error.message);
@@ -147,16 +146,6 @@ router.route('/contact')
 			name: req.session.user.name
 		});
 	else return res.render('contact', {title: 'Contact Us'});
-});
-
-router.route('/profile')
-.all(middleware.requiresLogin)
-.get((req, res, next) => {
-	res.render('profile', {
-		title: 'Profile',
-		currentUser: req.session.user,
-		name: req.session.user.name
-	});
 });
 
 module.exports = router;

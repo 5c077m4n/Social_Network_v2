@@ -1,9 +1,8 @@
 'use strict';
-const jwt = require('jsonwebtoken');
 const resError = require('../respond-error');
 
 module.exports.loggedOut = (req, res, next) => {
-	if(req.session && req.session.user) return res.redirect('/profile');
+	if(req.session && req.session.user) return res.redirect('/login');
 	else return next();
 };
 

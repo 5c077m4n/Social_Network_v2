@@ -82,8 +82,8 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/../views');
 
 app.use('/', require('./routes'));
-app.use('/users', require('./routes/userRoutes'));
-app.use('/admins', middleware.isAdmin, require('./routes/adminRoutes'));
+app.use('/user', middleware.requiresLogin, require('./routes/userRoutes'));
+app.use('/admin', middleware.requiresLogin, middleware.isAdmin, require('./routes/adminRoutes'));
 
 app.use((req, res, next) => {
 	let err = new Error('File Not Found');
