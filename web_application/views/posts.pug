@@ -7,4 +7,5 @@ block content
 			p.lead All of your posts are here
 	ul
 		each val in posts
-			li #{val}
+			li on #{val.createdAt}, you wrote: 
+				a(href="/user/posts/" + val._id) "#{val.content}"

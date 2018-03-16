@@ -12,7 +12,6 @@ router.route('/')
 .get((req, res, next) => {
 	res.render('profile', {
 		title: 'Profile',
-		currentUser: req.session.user,
 		username: req.session.user.username,
 		name: req.session.user.name
 	});
