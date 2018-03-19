@@ -56,8 +56,8 @@ app.use(session({
 
 app.use(new Limiter({
 	windowMs: 5 * 60 * 1000, // 5 minutes
-	max: 200, // limit each IP to 100 requests per windowMs
-	delayMs: 2 * 1000, // disable delaying - full speed until the max limit is reached
+	max: 200, // limit each IP to 200 requests per windowMs
+	delayMs: 2 * 1000,
 	delayAfter: 5
 }));
 

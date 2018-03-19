@@ -5,6 +5,8 @@ const request = require('request-promise');
 const express = require('express');
 const resError = require('../respond-error');
 const middleware = require('../middleware');
+const HOST = require('../../localData/API_address.json').HOST;
+const PORT = require('../../localData/API_address.json').PORT;
 
 const router = express.Router();
 

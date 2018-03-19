@@ -104,7 +104,21 @@ router.route('/:postID')
 });
 
 router.route('/:postID/vote-:direction')
-.post(middleware.validVote, (req, res, next) => {
+.all(middleware.validVote)
+.get((req, res, next) => {
+	return new Promise((resolve, reject) => {
+		localTemp.post
+		.vote(req.params.direction, (err, post) => {
+			if(err) return reject(err);
+			return resolve(post);
+		});
+	}).then((post) => {
+		return res.json(post);
+	}).catch((err) => {
+		return next(err);
+	});
+})
+.post((req, res, next) => {
 	return new Promise((resolve, reject) => {
 		localTemp.post
 		.vote(req.params.direction, (err, post) => {
@@ -183,7 +197,21 @@ router.route('/:postID/comments/:commentID')
 });
 
 router.route('/:postID/comments/:commentID/vote-:direction')
-.post(middleware.validVote, (req, res, next) => {
+.all(middleware.validVote)
+.get((req, res, next) => {
+	return new Promise((resolve, reject) => {
+		localTemp.post.comment
+		.vote(req.params.direction, (err, comment) => {
+			if(err) return reject(err);
+			return resolve(comment);
+		});
+	}).then((comment) => {
+		return res.json(comment);
+	}).catch((err) => {
+		return next(err);
+	});
+})
+.post((req, res, next) => {
 	return new Promise((resolve, reject) => {
 		localTemp.post.comment
 		.vote(req.params.direction, (err, comment) => {

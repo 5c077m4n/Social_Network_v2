@@ -1,0 +1,22 @@
+extends layout
+
+block content
+	.jumbotron.jumbotron-fluid
+		.container
+			h1.display-4 Comments
+			p.lead All of your post's comments are right here:
+	ul.list-group
+			each comment in comments
+				li
+					if !comment.parentPostID && !comment.isHidden
+						a.list-group-item.list-group-item-action.flex-column.align-items-start(href='/user/posts/' + post._id)
+							.d-flex.w-100.justify-content-between
+								h5.mb-1 "#{comment.content}"
+								small posted on: #{comment.createdAt} 
+									br
+									|votes: #{comment.votes}
+						p.mb-1
+							a(href='/user/posts/' + comment.parentPostID + '/comments/' + comment._id + '/vote-up') VOTE UP &#8657; 
+							br
+							a(href='/user/posts/' + comment.parentPostID + '/comments/' + comment._id + '/vote-down') VOTE DOWN &#8659; 
+						small

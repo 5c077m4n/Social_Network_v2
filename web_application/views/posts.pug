@@ -4,8 +4,32 @@ block content
 	.jumbotron.jumbotron-fluid
 		.container
 			h1.display-4 Posts
-			p.lead All of your posts are here
-	ul
-		each val in posts
-			li on #{val.createdAt}, you wrote: 
-				a(href="/user/posts/" + val._id) "#{val.content}"
+			p.lead All of your posts are right here:
+	ul.list-group
+			each post in posts
+				li
+					if !post.parentPostID && !post.isHidden
+						a.list-group-item.list-group-item-action.flex-column.align-items-start(href='/user/posts/' + post._id)
+							.d-flex.w-100.justify-content-between
+								h5.mb-1 "#{post.content}"
+								small posted on: #{post.createdAt} 
+									br
+									|votes: #{post.votes}
+						p.mb-1
+							a(href='/user/posts/' + post._id + '/vote-up') VOTE UP &#8657; 
+							br
+							a(href='/user/posts/' + post._id + '/vote-down') VOTE DOWN &#8659; 
+						small
+						each comment in posts
+							if comment.parentPostID == post._id && !comment.isHidden
+								a.list-group-item.list-group-item-action.flex-column.align-items-start(href='/user/posts/' + comment._id)
+									.d-flex.w-100.justify-content-between
+										h5.mb-1 &#8605; "#{comment.content}"
+										small posted on: #{comment.createdAt}
+											br
+											|votes: #{comment.votes}
+								p.mb-1
+									a(href='/user/posts/' + post._id + '/comments/' + comment._id + '/vote-up') VOTE UP &#8657; 
+									br
+									a(href='/user/posts/' + post._id + '/comments/#' + comment._id + '/vote-down') VOTE DOWN &#8659; 
+								small

@@ -31,13 +31,11 @@ app.use((req, res, next) => {
 });
 
 app.use(compress({
-	filter: (req, res, next) => {
-		// don't compress responses with this request header
+	filter: (req, res) => {
 		if (req.headers['x-no-compression']) return false;
-		// fallback to standard filter function
 		return compress.filter(req, res);
-	  },
-	  level: 6
+	},
+	level: 6
 }));
 
 const accessLogStream = fs.createWriteStream(
