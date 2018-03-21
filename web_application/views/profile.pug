@@ -3,6 +3,6 @@ extends layout
 block content
 	.jumbotron.jumbotron-fluid
 		.container
-			h1.display-4 Heyoo #{name}!
+			h1.display-4 Heyoo #{session.user.name}!
 			p.lead How you doin'?
 			a.btn.btn-info-outline.btn-lg.m-t-1(href='/user/posts') View your posts

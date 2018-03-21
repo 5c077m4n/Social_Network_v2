@@ -1,6 +1,29 @@
 extends layout
 
 block content
+	script(type='text/javascript').
+		$(document).ready(() => {
+			$('.voteUp').on('click', (e) => {
+				e.preventDefault();
+				$.ajax({
+					type: 'GET',
+					url: `http://127.0.0.1:3000/user/posts/${comment.parentPostID}/comments/${comment._id}/vote-up`,
+					dataType: 'json',
+				})
+				.done(data => $('#postVotes').html('votes:' + JSON.stringify(data.votes)))
+				.fail(err => alert('Sorry, an error has occurred:' + err));
+			});
+			$('.voteDown').on('click', (e) => {
+				e.preventDefault();
+				$.ajax({
+					type: 'GET',
+					url: `http://127.0.0.1:3000/user/posts/${comment.parentPostID}/comments/${comment._id}/vote-down`,
+					dataType: 'json',
+				})
+				.done(data => $('#postVotes').html('votes:' + JSON.stringify(data.votes)))
+				.fail(err => alert('Sorry, an error has occurred:' + err));
+			});
+		});
 	.jumbotron.jumbotron-fluid
 		.container
 			h1.display-4 Comments
@@ -16,7 +39,7 @@ block content
 									br
 									|votes: #{comment.votes}
 						p.mb-1
-							a(href='/user/posts/' + comment.parentPostID + '/comments/' + comment._id + '/vote-up') VOTE UP &#8657; 
+							a.voteUp(href='/user/posts/' + comment.parentPostID + '/comments/' + comment._id + '/vote-up') VOTE UP &#8657; 
 							br
-							a(href='/user/posts/' + comment.parentPostID + '/comments/' + comment._id + '/vote-down') VOTE DOWN &#8659; 
+							a.voteDown(href='/user/posts/' + comment.parentPostID + '/comments/' + comment._id + '/vote-down') VOTE DOWN &#8659; 
 						small

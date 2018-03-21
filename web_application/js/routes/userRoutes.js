@@ -13,9 +13,7 @@ const router = express.Router();
 router.route('/')
 .get((req, res, next) => {
 	res.render('profile', {
-		title: 'Profile',
-		username: req.session.user.username,
-		name: req.session.user.name
+		title: 'Profile'
 	});
 })
 .put((req, res, next) => {

@@ -9,13 +9,17 @@ const middleware = require('../middleware');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-	return res.render('index', {title: 'Home'});
+	return res.render('index', {
+		title: 'Home'
+	});
 });
 
 router.route('/register')
 .all(middleware.loggedOut)
 .get((req, res, next) => {
-	return res.render('register', {title: 'Sign Up'});
+	return res.render('register', {
+		title: 'Sign Up'
+	});
 })
 .post((req, res, next) => {
 	if(req.body.password === req.body.confirmPassword)
@@ -56,7 +60,9 @@ router.route('/register')
 router.route('/login')
 .all(middleware.loggedOut)
 .get((req, res, next) => {
-	return res.render('login', {title: 'Log in'});
+	return res.render('login', {
+		title: 'Log in'
+	});
 })
 .post((req, res, next) => {
 	if(!(req.body.username && req.body.password))
@@ -130,22 +136,22 @@ router.route('/about')
 .get((req, res, next) => {
 	if(req.session.user)
 		return res.render('about', {
-			title: 'About',
-			currentUser: req.session.user,
-			name: req.session.user.name
+			title: 'About'
 		});
-	else return res.render('about', {title: 'About'});
+	else return res.render('about', {
+		title: 'About'
+	});
 });
 
 router.route('/contact')
 .get((req, res, next) => {
 	if(req.session.user)
 		return res.render('contact', {
-			title: 'Contact',
-			currentUser: req.session.user,
-			name: req.session.user.name
+			title: 'Contact Us'
 		});
-	else return res.render('contact', {title: 'Contact Us'});
+	else return res.render('contact', {
+		title: 'Contact Us'
+	});
 });
 
 module.exports = router;
