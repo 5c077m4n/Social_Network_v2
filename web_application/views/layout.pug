@@ -1,24 +1,24 @@
-doctype html(lang='en')
-head
-	meta(charset='utf-8')
-	meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
-	meta(http-equiv='x-ua-compatible', content='ie=edge')
-	link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
-	link(rel='stylesheet', href='/stylesheets/style.css')
-	link(rel="icon" href="/img/favicon.ico")
-	script(type="text/javascript" src="/js/jquery-3.3.1.min.js")
+html(lang='en')
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+		meta(http-equiv='x-ua-compatible', content='ie=edge')
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel="icon" href="/img/favicon.ico")
+		script(type="text/javascript" src="/js/jquery-3.3.1.min.js")
 
-	if title
-		title FS.n | #{title}
-	else
-		title FS.n | error :'(
-body
-	include navbar
+		if title
+			title FS.n | #{title}
+		else
+			title FS.n | error :'(
+	body
+		include navbar
 
-	block content
+		block content
 
-	footer.footer.text-center
-		.container
-			span.text-muted
-				| A Fresh and New Social Networking Site &#9731; Created by 
-				a(href="/contact") The Scottman
+		footer.footer.text-center
+			.container
+				span.text-muted
+					| A Fresh and New Social Networking Site &#9731; Created by 
+					a(href="/contact") The Scottman

@@ -13,7 +13,7 @@ block content
 							e.preventDefault();
 							$.ajax({
 								type: 'GET',
-								url: `http://127.0.0.1:3000/user/posts/${post._id}/vote-up`,
+								url: 'http://127.0.0.1:3000/user/posts/' + post._id + '/vote-up',
 								dataType: 'json',
 							})
 							.done(data => $('#postVotes').html('votes:' + JSON.stringify(data.votes)))
@@ -23,7 +23,7 @@ block content
 							e.preventDefault();
 							$.ajax({
 								type: 'GET',
-								url: `http://127.0.0.1:3000/user/posts/${post._id}/vote-down`,
+								url: 'http://127.0.0.1:3000/user/posts/' + post._id + '/vote-down',
 								dataType: 'json',
 							})
 							.done(data => $('#postVotes').html('votes:' + JSON.stringify(data.votes)))
@@ -32,16 +32,15 @@ block content
 					});
 				li
 					if !post.parentPostID && !post.isHidden
-						a.list-group-item.list-group-item-action.flex-column.align-items-start(href='/user/posts/' + post._id)
+						a.list-group-item.list-group-item-action.flex-column.align-items-start.active(href='/user/posts/' + post._id)
 							.d-flex.w-100.justify-content-between
 								h5.mb-1 "#{post.content}"
 								small posted on: #{post.createdAt}
 									br
 									span#postVotes votes: #{post.votes}
 						p.mb-1
-							a.voteUp(href='/user/posts/' + post._id + '/vote-up') VOTE UP &#8657; 
-							br
-							a.voteDown(href='/user/posts/' + post._id + '/vote-down') VOTE DOWN &#8659; 
+							button.voteUp(href='/user/posts/' + post._id + '/vote-up') VOTE UP &#8657;
+							button.voteDown(href='/user/posts/' + post._id + '/vote-down') VOTE DOWN &#8659; 
 						small
 						each comment in posts
 							if comment.parentPostID == post._id && !comment.isHidden
